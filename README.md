@@ -73,3 +73,8 @@ Download dataset from [NTIRE 2020 RWSR](https://competitions.codalab.org/competi
  ```CUDA_VISIBLE_DEVICES=X python3 test.py -opt options/dped/test_dped.yml```
  3. The output images is saved in '../results/'
  
+
+## Training code
+
+Release soon.
+ 
