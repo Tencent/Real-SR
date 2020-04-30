@@ -33,7 +33,7 @@ If you are interested in this work, please cite
 
 
 ## Dependencies and Installation
-This code is based on [BasicSR](https://github.com/xinntao/BasicSR) and [KernelGAN](https://github.com/sefibk/KernelGAN).
+This code is based on [BasicSR](https://github.com/xinntao/BasicSR).
 
 - Python 3 (Recommend to use [Anaconda](https://www.anaconda.com/download/#linux))
 - [PyTorch >= 1.0](https://pytorch.org/)
