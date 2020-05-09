@@ -53,6 +53,8 @@ This code is based on [BasicSR](https://github.com/xinntao/BasicSR).
 ## Testing
 Download dataset from [NTIRE 2020 RWSR](https://competitions.codalab.org/competitions/22220#participate) and unzip it to your path.
 
+We provide [Corrupted-te-x](https://drive.google.com/open?id=1GrLxeE-LruddQoAePV1Z7MFclXdZWHMa) and [DPEDiphone-crop-te-x](https://drive.google.com/open?id=19zlofWRxkhsjf_TuRA2oI9jgozifGvxp) for demo.
+
 ```cd ./codes```
 
 ### DF2K: Image processing artifacts
