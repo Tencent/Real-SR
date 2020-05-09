@@ -16,7 +16,7 @@ Recent state-of-the-art super-resolution methods have achieved impressive perfor
 
 ![RealSR](figures/arch.png)  
 
-If you are interested in this work, please cite
+If you are interested in this work, please cite our paper
 
     @article{Ji2020realsr,
         title={Real World Super-Resolution via Kernel Estimation and Noise Injection},
@@ -25,12 +25,40 @@ If you are interested in this work, please cite
         year={2020},
     }
 
+and challenge report [NTIRE 2020 Challenge on Real-World Image Super-Resolution: Methods and Results](https://arxiv.org/pdf/2005.01996.pdf)
+
+    @article{Lugmayr2020ntire,
+            title={NTIRE 2020 Challenge on Real-World Image Super-Resolution: Methods and Results},
+            author={Andreas Lugmayr, Martin Danelljan, Radu Timofte, Namhyuk Ahn, Dongwoon Bai, Jie Cai, Yun Cao, Junyang Chen, Kaihua Cheng, SeYoung Chun, Wei Deng, Mostafa El-Khamy Chiu, Man Ho, Xiaozhong Ji, Amin Kheradmand, Gwantae Kim, Hanseok Ko, Kanghyu Lee, Jungwon Lee, Hao Li, Ziluan Liu, Zhi-Song Liu, Shuai Liu, Yunhua Lu, Zibo Meng, Pablo Navarrete, Michelini Christian, Micheloni Kalpesh, Prajapati Haoyu, Ren Yong, Hyeok Seo, Wan-Chi Siu, Kyung-Ah Sohn, Ying Tai, Rao Muhammad Umer, Shuangquan Wang, Huibing Wang, Timothy Haoning Wu, Haoning Wu, Biao Yang, Fuzhi Yang, Jaejun Yoo, Tongtong Zhao, Yuanbo Zhou, Haijie Zhuo, Ziyao Zong, Xueyi Zou},
+            journal={CVPR Workshops},
+            year={2020},
+        }
+
+    
+
  
 ## Visual Results
 
 ![0](figures/0913.png)
 
 ![1](figures/0935.png)
+
+# Quantitative Results Compared with Other Participating Methods
+
+'Impressionism' is our team. Note that the final decision is based on MOS (Mean Opinion Score) and MOR (Mean Opinion Rank).
+
+![0](figures/track1.png)
+
+![1](figures/track2.png)
+
+# Qualitative Results Compared with Other Participating Methods
+
+'Impressionism' is our team. 
+
+![0](figures/df2k.png)
+
+![1](figures/dped.png)
+
 
 
 ## Dependencies and Installation
@@ -53,7 +81,7 @@ This code is based on [BasicSR](https://github.com/xinntao/BasicSR).
 ## Testing
 Download dataset from [NTIRE 2020 RWSR](https://competitions.codalab.org/competitions/22220#participate) and unzip it to your path.
 
-We provide [Corrupted-te-x](https://drive.google.com/open?id=1GrLxeE-LruddQoAePV1Z7MFclXdZWHMa) and [DPEDiphone-crop-te-x](https://drive.google.com/open?id=19zlofWRxkhsjf_TuRA2oI9jgozifGvxp) for demo.
+For convenient, we provide [Corrupted-te-x](https://drive.google.com/open?id=1GrLxeE-LruddQoAePV1Z7MFclXdZWHMa) and [DPEDiphone-crop-te-x](https://drive.google.com/open?id=19zlofWRxkhsjf_TuRA2oI9jgozifGvxp).
 
 ```cd ./codes```
 
