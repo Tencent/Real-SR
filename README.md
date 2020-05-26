@@ -72,6 +72,8 @@ This code is based on [BasicSR](https://github.com/xinntao/BasicSR).
   - PyTorch >= 1.1: `pip install tb-nightly future`
   - PyTorch == 1.0: `pip install tensorboardX`
 
+## Demo
+Thanks for @nihuini. Executable files are provided by [ncnn](https://git.code.oa.com/nihuini/realsr-ncnn-vulkan). You can run your own images on windows/linux/macos. 
 
 ## Pre-trained models
 - Models for challenge results
