@@ -14,7 +14,7 @@ Our solution is the **winner of CVPR NTIRE 2020 Challenge on Real-World Super-Re
 - Add [DF2K-JPEG](https://drive.google.com/open?id=1w8QbCLM6g-MMVlIhRERtSXrP-Dh7cPhm) Model.
 - [Executable files](https://drive.google.com/open?id=1-FZPyMtuDfEnAPgSBfePYhv0NorznDPU) based on [ncnn](https://github.com/Tencent/ncnn) are available. Test your own images on windows/linux/macos. More details refer to [realsr-ncnn-vulkan](https://github.com/nihui/realsr-ncnn-vulkan)
     - Usage - ```./realsr-ncnn-vulkan -i in.jpg -o out.png```
-    - ```-x``` - use ensemble 
+    - ```-x``` - use ensemble
     - ```-g 0``` - select gpu id.
     
 ## Introduction
@@ -23,14 +23,15 @@ Recent state-of-the-art super-resolution methods have achieved impressive perfor
 
 ![RealSR](figures/arch.png)  
 
-If you are interested in this work, please cite our paper
+If you are interested in this work, please cite our [paper](http://openaccess.thecvf.com/content_CVPRW_2020/papers/w31/Ji_Real-World_Super-Resolution_via_Kernel_Estimation_and_Noise_Injection_CVPRW_2020_paper.pdf)
 
-    @article{Ji2020realsr,
-        title={Real World Super-Resolution via Kernel Estimation and Noise Injection},
-        author={Xiaozhong Ji, Yun Cao, Ying Tai, Chengjie Wang, Jilin Li, and Feiyue Huang},
-        journal={CVPR Workshops},
-        year={2020},
-    }
+    @InProceedings{Ji_2020_CVPR_Workshops,
+                   author = {Ji, Xiaozhong and Cao, Yun and Tai, Ying and Wang, Chengjie and Li, Jilin and Huang, Feiyue},
+                   title = {Real-World Super-Resolution via Kernel Estimation and Noise Injection},
+                   booktitle = {The IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops},
+                   month = {June},
+                   year = {2020}
+         }
 
 and challenge report [NTIRE 2020 Challenge on Real-World Image Super-Resolution: Methods and Results](https://arxiv.org/pdf/2005.01996.pdf)
 
