@@ -1,0 +1,79 @@
+#### general settings
+name: DPED_kernel_noise
+use_tb_logger: true
+model: srgan
+distortion: sr
+scale: 4
+gpu_ids: [4]
+
+#### datasets
+datasets:
+  train:
+    name: DPED_train
+    mode: LQGT
+    aug: noise
+    noise_data: ../datasets/DPED/DPEDiphone_noise/
+    dataroot_GT: ../datasets/DPED/generated/clean/train_tdsr/HR
+    dataroot_LQ: ../datasets/DPED/generated/clean/train_tdsr/LR
+
+    use_shuffle: true
+    n_workers: 6  # per GPU
+    batch_size: 16
+    GT_size: 128
+    use_flip: true
+    use_rot: true
+    color: RGB
+
+#### network structures
+network_G:
+  which_model_G: RRDBNet
+  in_nc: 3
+  out_nc: 3
+  nf: 64
+  nb: 23
+network_D:
+  which_model_D: NLayerDiscriminator
+  in_nc: 3
+  nf: 64
+  nlayer: 3
+
+#### path
+path:
+  pretrain_model_G: ../pretrained_model/RRDB_PSNR_x4.pth
+  strict_load: true
+  resume_state: ~ #../experiments/training_states/model.state
+
+#### training settings: learning rate scheme, loss
+train:
+  lr_G: !!float 1e-4
+  weight_decay_G: 0
+  beta1_G: 0.9
+  beta2_G: 0.999
+  lr_D: !!float 1e-4
+  weight_decay_D: 0
+  beta1_D: 0.9
+  beta2_D: 0.999
+  lr_scheme: MultiStepLR
+
+  niter: 60001
+  warmup_iter: -1  # no warm up
+  lr_steps: [5000, 10000, 20000, 30000]
+  lr_gamma: 0.5
+
+  pixel_criterion: l1
+  pixel_weight: !!float 1e-2
+  feature_criterion: l1
+  feature_weight: 1
+  gan_type: ragan  # gan | ragan
+  gan_weight: !!float 5e-3
+
+  D_update_ratio: 1
+  D_init_iters: 0
+
+  manual_seed: 10
+  val_freq: 99999999
+
+#### logger
+logger:
+  print_freq: 100
+  save_checkpoint_freq: !!float 5e3

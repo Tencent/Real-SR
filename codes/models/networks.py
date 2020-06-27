@@ -74,14 +74,10 @@ def define_D(opt):
     opt_net = opt['network_D']
     which_model = opt_net['which_model_D']
 
-    if which_model == 'discriminator_vgg_128':
-        netD = SRGAN_arch.Discriminator_VGG_128(in_nc=opt_net['in_nc'], nf=opt_net['nf'])
-    elif which_model == 'discriminator_vgg_256':
-        netD = SRGAN_arch.Discriminator_VGG_256(in_nc=opt_net['in_nc'], nf=opt_net['nf'])
-    elif which_model == 'discriminator_vgg_512':
-        netD = SRGAN_arch.Discriminator_VGG_512(in_nc=opt_net['in_nc'], nf=opt_net['nf'])
-    elif which_model == 'NLayerDiscriminator':
+    if which_model == 'NLayerDiscriminator':
         netD = SRGAN_arch.NLayerDiscriminator(input_nc=opt_net['in_nc'], ndf=opt_net['nf'], n_layers=opt_net['nlayer'])
+    elif which_model == 'discriminator_vgg_128':
+        netD = SRGAN_arch.Discriminator_VGG_128(in_nc=opt_net['in_nc'], nf=opt_net['nf'])
     else:
         raise NotImplementedError('Discriminator model [{:s}] not recognized'.format(which_model))
     return netD

@@ -1,0 +1,20 @@
+
+The Weizmann Institute of Science 
+Academic Non Commercial Software Code License
+[Blind Super-Resolution Kernel Estimation using an Internal-GAN] (the "Work") 
+© 2018 The Weizmann Institute of Science ("WIS") and Yeda Research and Development Company Ltd. ("Yeda")  All Rights Reserved
+
+1. YEDA, the commercial arm of WIS, hereby grants you, an individual or a legal entity exercising rights under, and complying with all of the provisions, of this License (“You”) a royalty-free, non-exclusive, sublicensable, worldwide license to: use, copy, modify, create derivative works (including without limiting to: adapt, alter, transform), integrate with other works, distribute, enable access (including without limiting to: communicate copies), publicly display and perform the Work in binary form or in source code, for academic and noncommercial use only and subject to all provisions of this License: 
+2. YEDA hereby grants You a royalty-free, non-exclusive, sublicensable, worldwide license under patents claimed or owned by YEDA that are embodied in the Work, to make, have made and use the Work under the License, for avoidance of doubt for academic and noncommercial use only.
+3. Distribution or provision of access to the Work and to derivative works of the Work ("Derivative Works") may be made only under this License, accompanied with a copy of the source code or a reference to an online repository where such source code can be accessed. 
+4. Neither the names of WIS or Yeda, nor any of their trademarks or service marks, may be used to endorse or promote Derivative Works or for any other purpose except as expressly permitted hereunder. 
+5. Except as expressly stated in this License, nothing in this License grants any license to trademarks, copyrights, patents, trade secrets or any other intellectual property of WIS or Yeda. No license is granted to the trademarks of WIS or Yeda's even if such marks are included in the Work. 
+6. Nothing in this License shall be interpreted to prohibit WIS or Yeda from licensing the Work under terms different from this License.  For commercial use please e-mail Yeda at: info.yeda@weizmann.ac.il
+7. You must retain, in the Source Code of any Derivative Works that You create, all copyright, patent, or trademark notices from the Source Code of the Work, as well as a notice to inform recipients that You have modified the Work with a description of such modifications.
+8. THE WORK IS PROVIDED "AS IS" AND WITHOUT ANY WARRANTIES WHATSOEVER, EXPRESS OR IMPLIED, INCLUDING, WITHOUT LIMITATION ANY WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. 
+9. IN NO EVENT WILL WIS, YEDA OR ANY OF THEIR RELATED ENTITES, SCIENTISTS, EMPLOYEES, MANAGERS OR ANY OTHE PERSON ACTING ON THEIR BEHALF, BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY OR CAUSE OF ACTION, WHETHER IN CONTRACT, TORT, STRICT LIABILITY, UNJUST ENRICHMENT OR ANY OTHER, ARISING IN ANY WAY OUT OF THE USE OF THE WORK OR THIS LICENSE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+10. This License will terminate automatically if any of its conditions is not met, or in case You commence an action, including a cross-claim or counterclaim, against WIS or YEDA or any licensee alleging that the Work (except due to combination with other software or hardware) infringes a patent.
+11. This License shall be exclusively governed by the laws of the State of Israel, without giving effect to conflict of laws principles, and the competent courts in Tel Aviv will have exclusive jurisdiction and venue over any matter between You and WIS or YEDA or any of their related entities relating to this License or the Work. 
+12. If any provision of this License is held to be unenforceable, such provision shall be reformed only to the extent necessary to make it enforceable.
+
+
