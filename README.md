@@ -113,7 +113,37 @@ For convenient, we provide [Corrupted-te-x](https://drive.google.com/open?id=1Gr
  3. The output images is saved in '../results/'
  
 
-## Training code
+## Training
 
-Release soon.
+### Track 1
+ 1. prepare training data
+    - specify dataset paths in './preprocess/path.yml' and create bicubic dataset :
+    ```python3 ./preprocess/create_bicubic_dataset.py --dataset df2k --artifacts tdsr```
+
+    - run the below command to collect high frequency noise from Source :
+    ```python3 ./preprocess/collect_noise.py --dataset df2k --artifacts tdsr```
+    
+ 2. train SR model
+    - Modify the configuration file options/df2k/train_bicubic_noise.yml
+    - Run command :
+    ```CUDA_VISIBLE_DEVICES=4,5,6,7 python3 train.py -opt options/df2k/train_bicubic_noise.yml```
+    - checkpoint dir is in '../experiments'
+    
+### Track 2
+ 1. prepare training data
+    - Use KernelGAN to generate kernels from source images. Replace SOURCE_PATH with specific path and run :
+        ```CUDA_VISIBLE_DEVICES=4,5,6,7 python3 ./preprocess/KernelGAN/train.py --X4 --input-dir SOURCE_PATH```
+    
+    - specify dataset paths in './preprocess/path.yml' and create kernel dataset :
+    ```python3 ./preprocess/create_kernel_dataset.py --dataset dped --artifacts clean```
+
+    - run the below command to collect high frequency noise from Source :
+    ```python3 ./preprocess/collect_noise.py --dataset dped --artifacts clean```
+    
+ 2. train SR model
+    - Modify the configuration file options/dped/train_kernel_noise.yml
+    - run command :
+    ```CUDA_VISIBLE_DEVICES=4,5,6,7 python3 train.py -opt options/dped/train_kernel_noise.yml```
+    - checkpoint dir is in '../experiments'
+ 
  
