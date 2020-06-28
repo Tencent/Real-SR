@@ -25,7 +25,6 @@ class LQGTDataset(data.Dataset):
 
         self.paths_GT, self.sizes_GT = util.get_image_paths(self.data_type, opt['dataroot_GT'])
         self.paths_LQ, self.sizes_LQ = util.get_image_paths(self.data_type, opt['dataroot_LQ'])
-        self.paths_BQ, self.sizes_BQ = util.get_image_paths(self.data_type, opt['dataroot_BQ'])
         assert self.paths_GT, 'Error: GT path is empty.'
         if self.paths_LQ and self.paths_GT:
             assert len(self.paths_LQ) == len(
@@ -36,7 +35,7 @@ class LQGTDataset(data.Dataset):
         # print(opt['aug'])
         if self.opt['phase'] == 'train':
             if opt['aug'] and 'noise' in opt['aug']:
-                self.noises = noiseDataset(opt['noise_data'])
+                self.noises = noiseDataset(opt['noise_data'], opt['GT_size']/opt['scale'])
 
 
 
@@ -102,17 +101,6 @@ class LQGTDataset(data.Dataset):
             if img_LQ.ndim == 2:
                 img_LQ = np.expand_dims(img_LQ, axis=2)
 
-        if self.paths_BQ:
-            BQ_path = self.paths_BQ[index]
-            if self.data_type == 'lmdb':
-                resolution = [int(s) for s in self.sizes_BQ[index].split('_')]
-            else:
-                resolution = None
-            img_BQ = util.read_img(self.LQ_env, BQ_path, resolution)
-            # r = np.random.rand(1)
-            r = self.opt['inter_r']
-            img_LQ = r * img_LQ + (1-r) * img_BQ
-            # print('***********inter************', r)
 
 
         if self.opt['phase'] == 'train':
