@@ -145,7 +145,7 @@ class LQGTDataset(data.Dataset):
             # add noise to LR during train
             if self.opt['aug'] and 'noise' in self.opt['aug']:
                 noise = self.noises[np.random.randint(0, len(self.noises))]
-                img_LQ += noise
+                img_LQ = torch.clamp(img_LQ + noise, 0, 1)
 
         if LQ_path is None:
             LQ_path = GT_path
