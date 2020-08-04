@@ -1,1 +1,0 @@
-CUDA_VISIBLE_DEVICES=4 python3 train.py --X4 --input-dir ../ntire20/DPEDiphone-tr-x
