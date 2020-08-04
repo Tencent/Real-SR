@@ -134,7 +134,7 @@ For convenient, we provide [Corrupted-te-x](https://drive.google.com/open?id=1Gr
     
 ### Track 2
  1. prepare training data
-    - Use [KernelGAN](https://github.com/sefibk/KernelGAN) to generate kernels from source images. Replace SOURCE_PATH with specific path and run :
+    - Use [KernelGAN](https://github.com/sefibk/KernelGAN) to generate kernels from source images. Clone the repo here. Replace SOURCE_PATH with specific path and run :
         ``` 
       cd KernelGAN
       CUDA_VISIBLE_DEVICES=4,5,6,7 python3 train.py --X4 --input-dir SOURCE_PATH

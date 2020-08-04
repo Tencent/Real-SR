@@ -7,7 +7,7 @@ import utils
 from PIL import Image
 import torchvision.transforms.functional as TF
 from tqdm import tqdm
-from imresize import imresize
+from KernelGAN.imresize import imresize
 from scipy.io import loadmat
 import numpy as np
 
