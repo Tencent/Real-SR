@@ -8,9 +8,6 @@ dped:
     hr:
       train: '../../ntire20/DPEDiphone-tr-x'
       valid: '../../ntire20/DPEDiphone-va'
-    lr:
-      train:
-      valid:
 datasets:
   df2k: '../datasets/DF2K'
   dped: '../datasets/DPED'
