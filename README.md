@@ -1,17 +1,18 @@
 # RealSR 
+![logo](figures/logo.jpg)
 
-Real-World Super-Resolution via Kernel Estimation and Noise Injection (CVPRW 2020)
+Real-World Super-Resolution via Kernel Estimation and Noise Injection (CVPR 2020 Workshops)
 
 Xiaozhong Ji, Yun Cao, Ying Tai, Chengjie Wang, Jilin Li, and Feiyue Huang
 
-*Tencent YouTu Lab*
+*Tencent Youtu Lab*
 
 Our solution is the **winner of CVPR NTIRE 2020 Challenge on Real-World Super-Resolution** in both tracks.
 
 (*Official PyTorch Implementation*)
 
-## Update - June 28, 2020
-- Release training code of both tracks.
+## Update - September 1, 2020
+- Release training code at Github/Tencent.
 
 ## Update - May 26, 2020
 - Add [DF2K-JPEG](https://drive.google.com/open?id=1w8QbCLM6g-MMVlIhRERtSXrP-Dh7cPhm) Model.
