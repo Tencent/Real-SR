@@ -150,6 +150,8 @@ def channel_convert(in_c, tar_type, img_list):
     elif in_c == 3 and tar_type == 'y':  # BGR to y
         y_list = [bgr2ycbcr(img, only_y=True) for img in img_list]
         return [np.expand_dims(img, axis=2) for img in y_list]
+    elif in_c == 3 and tar_type == 'Lab':  # BGR to CieLab
+        return [cv2.cvtColor(img, cv2.COLOR_BGR2Lab) for img in img_list]
     elif in_c == 1 and tar_type == 'RGB':  # gray/y to BGR
         return [cv2.cvtColor(img, cv2.COLOR_GRAY2BGR) for img in img_list]
     else:
