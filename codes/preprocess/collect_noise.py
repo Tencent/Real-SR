@@ -15,7 +15,7 @@ opt = parser.parse_args()
 
 # define input and target directories
 with open('./preprocess/paths.yml', 'r') as stream:
-    PATHS = yaml.load(stream)
+    PATHS = yaml.load(stream, Loader=yaml.SafeLoader)
 
 
 def noise_patch(rgb_img, sp, max_var, min_mean):
