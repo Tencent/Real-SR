@@ -123,6 +123,9 @@ def tensor2img(tensor, out_type=np.uint8, min_max=(0, 1)):
 
 
 def save_img(img, img_path, mode='RGB'):
+    if mode == 'Lab':
+        img = cv2.cvtColor(img, cv2.COLOR_Lab2BGR)
+
     cv2.imwrite(img_path, img)
 
 
