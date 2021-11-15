@@ -144,18 +144,23 @@ def augment_flow(img_list, flow_list, hflip=True, rot=True):
 
 def channel_convert(in_c, tar_type, img_list):
     # conversion among BGR, gray and y
+    img_list = [(img * 255).astype(np.uint8) for img in img_list]
+    out_list = img_list
+
     if in_c == 3 and tar_type == 'gray':  # BGR to gray
         gray_list = [cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) for img in img_list]
-        return [np.expand_dims(img, axis=2) for img in gray_list]
+        out_list = [np.expand_dims(img, axis=2) for img in gray_list]
     elif in_c == 3 and tar_type == 'y':  # BGR to y
         y_list = [bgr2ycbcr(img, only_y=True) for img in img_list]
-        return [np.expand_dims(img, axis=2) for img in y_list]
+        out_list = [np.expand_dims(img, axis=2) for img in y_list]
     elif in_c == 3 and tar_type == 'Lab':  # BGR to CieLab
-        return [cv2.cvtColor(img, cv2.COLOR_BGR2Lab) for img in img_list]
+        out_list = [cv2.cvtColor(img, cv2.COLOR_BGR2Lab) for img in img_list]
     elif in_c == 1 and tar_type == 'RGB':  # gray/y to BGR
-        return [cv2.cvtColor(img, cv2.COLOR_GRAY2BGR) for img in img_list]
-    else:
-        return img_list
+        out_list = [cv2.cvtColor(img, cv2.COLOR_GRAY2BGR) for img in img_list]
+
+    out_list = [img.astype(np.float32) / 255 for img in out_list]
+
+    return out_list
 
 
 def rgb2ycbcr(img, only_y=True):
