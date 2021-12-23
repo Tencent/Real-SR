@@ -41,7 +41,7 @@ class SRGANModel(BaseModel):
         if self.is_train:
 
             # G pixel loss
-            if train_opt['pixel_weight'] > 0:
+            if train_opt['pixel_weight_ch0'] > 0:
                 l_pix_type = train_opt['pixel_criterion']
                 if l_pix_type == 'l1':
                     self.cri_pix = nn.L1Loss().to(self.device)
@@ -49,7 +49,9 @@ class SRGANModel(BaseModel):
                     self.cri_pix = nn.MSELoss().to(self.device)
                 else:
                     raise NotImplementedError('Loss type [{:s}] not recognized.'.format(l_pix_type))
-                self.l_pix_w = train_opt['pixel_weight']
+                self.l_pix_w_ch0 = train_opt['pixel_weight_ch0']
+                self.l_pix_w_ch1 = train_opt['pixel_weight_ch1']
+                self.l_pix_w_ch2 = train_opt['pixel_weight_ch2']
             else:
                 logger.info('Remove pixel loss.')
                 self.cri_pix = None
@@ -144,8 +146,10 @@ class SRGANModel(BaseModel):
         l_g_total = 0
         if step % self.D_update_ratio == 0 and step > self.D_init_iters:
             if self.cri_pix:  # pixel loss
-                l_g_pix = self.l_pix_w * self.cri_pix(self.fake_H, self.var_H)
-                l_g_total += l_g_pix
+                l_g_pix_ch0 = self.l_pix_w_ch0 * self.cri_pix(self.fake_H[0], self.var_H[0])
+                l_g_pix_ch1 = self.l_pix_w_ch1 * self.cri_pix(self.fake_H[1], self.var_H[1])
+                l_g_pix_ch2 = self.l_pix_w_ch2 * self.cri_pix(self.fake_H[2], self.var_H[2])
+                l_g_total += l_g_pix_ch0 + l_g_pix_ch1 + l_g_pix_ch2
             if self.cri_fea:  # feature loss
                 real_fea = self.netF(self.var_H).detach()
                 fake_fea = self.netF(self.fake_H)
@@ -188,7 +192,9 @@ class SRGANModel(BaseModel):
         # set log
         if step % self.D_update_ratio == 0 and step > self.D_init_iters:
             if self.cri_pix:
-                self.log_dict['l_g_pix'] = l_g_pix.item()
+                self.log_dict['l_g_pix_ch0'] = l_g_pix_ch0.item()
+                self.log_dict['l_g_pix_ch1'] = l_g_pix_ch1.item()
+                self.log_dict['l_g_pix_ch2'] = l_g_pix_ch2.item()
                 # self.log_dict['l_g_mean_color'] = l_g_mean_color.item()
             if self.cri_fea:
                 self.log_dict['l_g_fea'] = l_g_fea.item()
