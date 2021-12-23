@@ -21,7 +21,7 @@ datasets:
     GT_size: 128
     use_flip: true
     use_rot: true
-    color: RGB
+    color: Lab
 #  val:
 #    name: val
 #    mode: LQGT
@@ -58,13 +58,15 @@ train:
   beta2_D: 0.999
   lr_scheme: MultiStepLR
 
-  niter: 60001
+  niter: 20001
   warmup_iter: -1  # no warm up
   lr_steps: [5000, 10000, 20000, 30000]
   lr_gamma: 0.5
 
   pixel_criterion: l1
-  pixel_weight: !!float 1e-2  # 1
+  pixel_weight_ch0: !!float 2e-2  # 1
+  pixel_weight_ch1: !!float 1e-2  # 1
+  pixel_weight_ch2: !!float 1e-2  # 1
   feature_criterion: l1
   feature_weight: 1
   gan_type: ragan  # gan | ragan
