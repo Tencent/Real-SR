@@ -6,7 +6,9 @@ import logging
 import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
+import matplotlib.pyplot as plt
 from data.data_sampler import DistIterSampler
+
 
 import options.options as option
 from utils import util
@@ -148,9 +150,26 @@ def main():
 
     #### training
     logger.info('Start training from epoch: {:d}, iter: {:d}'.format(start_epoch, current_step))
+
+    pix_ch0_epoch_losses = []
+    pix_ch1_epoch_losses = []
+    pix_ch2_epoch_losses = []
+    pix_losses = []
+    fea_epoch_losses = []
+    gan_epoch_losses = []
+    real_epoch_losses = []
+    fake_epoch_losses = []
+
     for epoch in range(start_epoch, total_epochs + 1):
         if opt['dist']:
             train_sampler.set_epoch(epoch)
+        pix_ch0_epoch_loss = 0
+        pix_ch1_epoch_loss = 0
+        pix_ch2_epoch_loss = 0
+        fea_epoch_loss = 0
+        gan_epoch_loss = 0
+        real_epoch_loss = 0
+        fake_epoch_loss = 0
         for _, train_data in enumerate(train_loader):
             current_step += 1
             if current_step > total_iters:
@@ -162,6 +181,15 @@ def main():
             model.feed_data(train_data)
             model.optimize_parameters(current_step)
 
+            logs = model.get_current_log()
+            #import pdb; pdb.set_trace()
+            pix_ch0_epoch_loss += logs['l_g_pix_ch0']
+            pix_ch1_epoch_loss += logs['l_g_pix_ch1']
+            pix_ch2_epoch_loss += logs['l_g_pix_ch2']
+            fea_epoch_loss += logs['l_g_fea']
+            gan_epoch_loss += logs['l_g_gan']
+            real_epoch_loss += logs['l_d_real']
+            fake_epoch_loss += logs['l_d_fake']
             #### log
             if current_step % opt['logger']['print_freq'] == 0:
                 logs = model.get_current_log()
@@ -206,7 +234,6 @@ def main():
                     cropped_gt_img = gt_img[crop_size:-crop_size, crop_size:-crop_size, :]
                     avg_psnr += util.calculate_psnr(cropped_sr_img * 255, cropped_gt_img * 255)
 
-
                 avg_psnr = avg_psnr / idx
                 val_pix_err_f /= idx
                 val_pix_err_nf /= idx
@@ -231,11 +258,47 @@ def main():
                     model.save(current_step)
                     model.save_training_state(epoch, current_step)
 
+        if current_step < total_iters:
+            pix_ch0_epoch_loss /= len(train_loader)
+            pix_ch1_epoch_loss /= len(train_loader)
+            pix_ch2_epoch_loss /= len(train_loader)
+            pix_loss = pix_ch0_epoch_loss + pix_ch1_epoch_loss + pix_ch2_epoch_loss
+            fea_epoch_loss /= len(train_loader)
+            gan_epoch_loss /= len(train_loader)
+            real_epoch_loss /= len(train_loader)
+            fake_epoch_loss /= len(train_loader)
+        
+            pix_ch0_epoch_losses.append(pix_ch0_epoch_loss)
+            pix_ch1_epoch_losses.append(pix_ch1_epoch_loss)
+            pix_ch2_epoch_losses.append(pix_ch2_epoch_loss)
+            pix_losses.append(pix_loss)
+            fea_epoch_losses.append(fea_epoch_loss)
+            gan_epoch_losses.append(gan_epoch_loss)
+            real_epoch_losses.append(real_epoch_loss)
+            fake_epoch_losses.append(fake_epoch_loss)
+
+            plot_losses(pix_ch0_epoch_losses, 'pix_ch0_loss.png')
+            plot_losses(pix_ch1_epoch_losses, 'pix_ch1_loss.png')
+            plot_losses(pix_ch2_epoch_losses, 'pix_ch2_loss.png')
+            plot_losses(pix_losses, 'pix_loss.png')
+            plot_losses(fea_epoch_losses, 'fea_loss.png')
+            plot_losses(gan_epoch_losses, 'gan_loss.png')
+            plot_losses(real_epoch_losses, 'real_loss.png')
+            plot_losses(fake_epoch_losses, 'fake_loss.png')
+
     if rank <= 0:
         logger.info('Saving the final model.')
         model.save('latest')
         logger.info('End of training.')
 
+def plot_losses(lst, fname):
+    plt.figure()
+    plt.scatter(list(range(len(lst))), lst)
+    plt.plot(list(range(len(lst))), lst, linestyle='dashed', alpha=0.25)
+    plt.savefig(fname=fname,
+                dpi=300,
+                bbox_inches='tight')
+    plt.close()
 
 if __name__ == '__main__':
     main()
