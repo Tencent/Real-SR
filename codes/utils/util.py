@@ -125,6 +125,14 @@ def tensor2img(tensor, out_type=np.uint8, min_max=(0, 1)):
 def save_img(img, img_path, mode='RGB'):
     if mode == 'Lab':
         img = cv2.cvtColor(img, cv2.COLOR_Lab2BGR)
+    elif mode == 'Luv':
+        img = cv2.cvtColor(img, cv2.COLOR_Luv2BGR)
+    elif mode == 'HSV':
+        img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
+    elif mode == 'HSL':
+        img = cv2.cvtColor(img, cv2.COLOR_HLS2BGR)
+    elif mode == 'XYZ':
+        img = cv2.cvtColor(img, cv2.COLOR_XYZ2BGR)
 
     cv2.imwrite(img_path, img)
 

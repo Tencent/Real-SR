@@ -155,6 +155,14 @@ def channel_convert(in_c, tar_type, img_list):
         out_list = [np.expand_dims(img, axis=2) for img in y_list]
     elif in_c == 3 and tar_type == 'Lab':  # BGR to CieLab
         out_list = [cv2.cvtColor(img, cv2.COLOR_BGR2Lab) for img in img_list]
+    elif in_c == 3 and tar_type == 'Luv':  # BGR to Luv
+        out_list = [cv2.cvtColor(img, cv2.COLOR_BGR2Luv) for img in img_list]
+    elif in_c == 3 and tar_type == 'HSV':  # BGR to HSV
+        out_list = [cv2.cvtColor(img, cv2.COLOR_BGR2HSV) for img in img_list]
+    elif in_c == 3 and tar_type == 'HSL':  # BGR to HSL
+        out_list = [cv2.cvtColor(img, cv2.COLOR_BGR2HLS) for img in img_list]
+    elif in_c == 3 and tar_type == 'XYZ':  # BGR to HSL
+        out_list = [cv2.cvtColor(img, cv2.COLOR_BGR2XYZ) for img in img_list]
     elif in_c == 1 and tar_type == 'RGB':  # gray/y to BGR
         out_list = [cv2.cvtColor(img, cv2.COLOR_GRAY2BGR) for img in img_list]
 
