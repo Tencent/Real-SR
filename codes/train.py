@@ -1,4 +1,5 @@
 import os
+import mlflow
 import math
 import argparse
 import random
@@ -37,6 +38,14 @@ def main():
     args = parser.parse_args()
     opt = option.parse(args.opt, is_train=True)
 
+    mlflow.log_params({'Batch Size': opt['datasets']['train']['batch_size'],
+                       'Color Model': opt['datasets']['train']['color'],
+                       'Pixel loss': opt['train']['pixel_criterion'],
+                       'Pixel Weight Channel 0': opt['train']['pixel_weight_ch0'],
+                       'Pixel Weight Channel 1': opt['train']['pixel_weight_ch1'],
+                       'Pixel Weight Channel 2': opt['train']['pixel_weight_ch2'],
+                       'Iterations': opt['train']['niter'],})
+    mlflow.log_artifact('./options/df2k/train_bicubic_noise.yml')
     #### distributed training settings
     if args.launcher == 'none':  # disabled distributed training
         opt['dist'] = False
@@ -182,14 +191,13 @@ def main():
             model.optimize_parameters(current_step)
 
             logs = model.get_current_log()
-            #import pdb; pdb.set_trace()
-            pix_ch0_epoch_loss += logs['l_g_pix_ch0']
-            pix_ch1_epoch_loss += logs['l_g_pix_ch1']
-            pix_ch2_epoch_loss += logs['l_g_pix_ch2']
-            fea_epoch_loss += logs['l_g_fea']
-            gan_epoch_loss += logs['l_g_gan']
-            real_epoch_loss += logs['l_d_real']
-            fake_epoch_loss += logs['l_d_fake']
+            pix_ch0_epoch_loss += logs['l_g_pix_ch0']/len(train_data)
+            pix_ch1_epoch_loss += logs['l_g_pix_ch1']/len(train_data)
+            pix_ch2_epoch_loss += logs['l_g_pix_ch2']/len(train_data)
+            fea_epoch_loss += logs['l_g_fea']/len(train_data)
+            gan_epoch_loss += logs['l_g_gan']/len(train_data)
+            real_epoch_loss += logs['l_d_real']/len(train_data)
+            fake_epoch_loss += logs['l_d_fake']/len(train_data)
             #### log
             if current_step % opt['logger']['print_freq'] == 0:
                 logs = model.get_current_log()
@@ -259,32 +267,23 @@ def main():
                     model.save_training_state(epoch, current_step)
 
         if current_step < total_iters:
-            pix_ch0_epoch_loss /= len(train_loader)
-            pix_ch1_epoch_loss /= len(train_loader)
-            pix_ch2_epoch_loss /= len(train_loader)
             pix_loss = pix_ch0_epoch_loss + pix_ch1_epoch_loss + pix_ch2_epoch_loss
+            pix_loss /= len(train_loader)
             fea_epoch_loss /= len(train_loader)
             gan_epoch_loss /= len(train_loader)
             real_epoch_loss /= len(train_loader)
             fake_epoch_loss /= len(train_loader)
         
-            pix_ch0_epoch_losses.append(pix_ch0_epoch_loss)
-            pix_ch1_epoch_losses.append(pix_ch1_epoch_loss)
-            pix_ch2_epoch_losses.append(pix_ch2_epoch_loss)
-            pix_losses.append(pix_loss)
-            fea_epoch_losses.append(fea_epoch_loss)
-            gan_epoch_losses.append(gan_epoch_loss)
-            real_epoch_losses.append(real_epoch_loss)
-            fake_epoch_losses.append(fake_epoch_loss)
+            mlflow.log_metrics({'Pixel Loss Channel 0': pix_ch0_epoch_loss,
+                                'Pixel Loss Channel 1': pix_ch1_epoch_loss,
+                                'Pixel Loss Channel 2': pix_ch2_epoch_loss,
+                                'Pixel Loss': pix_loss,
+                                'Feature Loss': fea_epoch_loss,
+                                'GAN Loss': gan_epoch_loss,
+                                'Fake Loss': fake_epoch_loss},
+                               step=epoch)
 
-            plot_losses(pix_ch0_epoch_losses, 'pix_ch0_loss.png')
-            plot_losses(pix_ch1_epoch_losses, 'pix_ch1_loss.png')
-            plot_losses(pix_ch2_epoch_losses, 'pix_ch2_loss.png')
-            plot_losses(pix_losses, 'pix_loss.png')
-            plot_losses(fea_epoch_losses, 'fea_loss.png')
-            plot_losses(gan_epoch_losses, 'gan_loss.png')
-            plot_losses(real_epoch_losses, 'real_loss.png')
-            plot_losses(fake_epoch_losses, 'fake_loss.png')
+    mlflow.log_param('Epochs', epoch)
 
     if rank <= 0:
         logger.info('Saving the final model.')
@@ -301,4 +300,6 @@ def plot_losses(lst, fname):
     plt.close()
 
 if __name__ == '__main__':
-    main()
+    with mlflow.start_run(experiment_id=1):
+        main()
+        mlflow.log_artifacts('../experiments/Corrupted_noise')
