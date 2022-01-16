@@ -1,7 +1,7 @@
 df2k:
   tdsr:
-    source: '../../ntire20/Corrupted-tr-x'
-    target: '../../ntire20/Corrupted-tr-y'
+    source: '../ntire20/source'
+    target: '../ntire20/target'
     valid:
 dped:
   clean:

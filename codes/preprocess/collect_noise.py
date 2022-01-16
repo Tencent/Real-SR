@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 import os.path as osp
+from options import options as option
 import glob
 import os
 import argparse
@@ -11,12 +12,18 @@ parser.add_argument('--dataset', default='df2k', type=str, help='selecting diffe
 parser.add_argument('--artifacts', default='', type=str, help='selecting different artifacts type')
 parser.add_argument('--cleanup_factor', default=2, type=int, help='downscaling factor for image cleanup')
 parser.add_argument('--upscale_factor', default=4, type=int, choices=[4], help='super resolution upscale factor')
+parser.add_argument('-opt', type=str, help='Path to option YMAL file.')
 opt = parser.parse_args()
 
 # define input and target directories
 with open('./preprocess/paths.yml', 'r') as stream:
     PATHS = yaml.load(stream, Loader=yaml.SafeLoader)
 
+#### training options
+train_opt = option.parse(opt.opt, is_train=True)
+color_mode = train_opt['datasets']['train']['color']
+
+print('COLOR MODE:', color_mode)
 
 def noise_patch(rgb_img, sp, max_var, min_mean):
     img = rgb_img.convert('L')

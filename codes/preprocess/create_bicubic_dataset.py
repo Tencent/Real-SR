@@ -1,9 +1,11 @@
 import argparse
+import cv2
 import os
 import torch.utils.data
 import yaml
-import utils
+import preprocess.utils as utils
 from PIL import Image
+from options import options as option
 import torchvision.transforms.functional as TF
 from tqdm import tqdm
 
@@ -17,7 +19,20 @@ parser.add_argument('--track', default='train', type=str, help='selecting train 
 parser.add_argument('--num_res_blocks', default=8, type=int, help='number of ResNet blocks')
 parser.add_argument('--cleanup_factor', default=2, type=int, help='downscaling factor for image cleanup')
 parser.add_argument('--upscale_factor', default=4, type=int, choices=[4], help='super resolution upscale factor')
+parser.add_argument('-opt', type=str, help='Path to option YMAL file.')
 opt = parser.parse_args()
+
+# define input and target directories
+train_opt = option.parse(opt.opt, is_train=True)
+color_mode = train_opt['datasets']['train']['color']
+
+print('COLOR MODE:', color_mode)
+cv_color_modes = {'RGB': cv2.COLOR_BGR2RGB,
+                  'Luv': cv2.COLOR_BGR2Luv,
+                  'Lab': cv2.COLOR_BGR2Lab,
+                  'HSL': cv2.COLOR_BGR2HLS,
+                  'HSV': cv2.COLOR_BGR2HSV,
+                  'XYZ': cv2.COLOR_BGR2XYZ}
 
 # define input and target directories
 with open('./preprocess/paths.yml', 'r') as stream:
@@ -52,7 +67,9 @@ if not os.path.exists(tdsr_lr_dir):
 with torch.no_grad():
     for file in tqdm(source_files, desc='Generating images from source'):
         # load HR image
-        input_img = Image.open(file)
+        cv_img = cv2.imread(file)
+        cv_img = cv2.cvtColor(cv_img, cv_color_modes[color_mode])
+        input_img = Image.fromarray(cv_img)
         input_img = TF.to_tensor(input_img)
 
         # Resize HR image to clean it up and make sure it can be resized again
@@ -75,7 +92,9 @@ with torch.no_grad():
 
     for file in tqdm(target_files, desc='Generating images from target'):
         # load HR image
-        input_img = Image.open(file)
+        cv_img = cv2.imread(file)
+        cv_img = cv2.cvtColor(cv_img, cv_color_modes[color_mode])
+        input_img = Image.fromarray(cv_img)
         input_img = TF.to_tensor(input_img)
 
         # Save input_img as HR image for TDSR
